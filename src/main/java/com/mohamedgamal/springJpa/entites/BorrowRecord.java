@@ -26,7 +26,7 @@ public class BorrowRecord {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
+    @JoinColumn(name = "book_id", nullable = true)
     private Book book;
 
     private LocalDate borrowDate;
