@@ -35,29 +35,22 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<List<BookDto>> getAllBooks() {
-        try {
             List<BookDto> books = bookService.getAllBooks();
             if (books.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(books, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
 
 
     @GetMapping("/{id}")
     public ResponseEntity<BookDto> getBookById(@PathVariable("id") Long id) {
-        try {
+
             BookDto book = bookService.getBookById(id);
             return new ResponseEntity<>(book, HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
 

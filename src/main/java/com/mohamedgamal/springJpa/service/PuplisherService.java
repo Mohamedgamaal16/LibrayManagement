@@ -6,6 +6,7 @@ import com.mohamedgamal.springJpa.DTO.PublisherDto;
 import com.mohamedgamal.springJpa.entites.Author;
 import com.mohamedgamal.springJpa.entites.Book;
 import com.mohamedgamal.springJpa.entites.Publisher;
+import com.mohamedgamal.springJpa.exception.LibraryManagmentAPIException;
 import com.mohamedgamal.springJpa.repos.BookRepo;
 import com.mohamedgamal.springJpa.repos.PublisherRepo;
 import jakarta.persistence.EntityNotFoundException;
@@ -33,19 +34,18 @@ public class PuplisherService {
         return PublisherDto.toDto(saved);
     }
 
-    public String removePublisher(Long id) {
+    public void removePublisher(Long id) {
         if (!publisherRepo.existsById(id)) {
-            return "cant find the publisher with this id";
+            throw new LibraryManagmentAPIException("Cannot find the publisher with ID: " + id);
         }
+
         try {
             publisherRepo.deleteById(id);
-
-            return "Publisher successfully deleted";
         } catch (DataIntegrityViolationException e) {
-            return "Cannot delete Publisher with ID " + id +
-                    ". It is referenced by other records. Please remove all references first.";
+            throw new LibraryManagmentAPIException("Cannot delete publisher with ID " + id +
+                    ". It is referenced by other records. Please remove all references first.");
         } catch (Exception e) {
-            return "Error occurred while deleting Publisher with ID " + id + ": " + e.getMessage();
+            throw new LibraryManagmentAPIException("Error occurred while deleting publisher with ID " + id + ": " + e.getMessage());
         }
     }
 
@@ -56,7 +56,7 @@ public class PuplisherService {
     public PublisherDto getPublisherById(Long id) {
 
         Optional<Publisher> publisher = publisherRepo.findById(id);
-        return publisher.map(PublisherDto::toDto).orElseThrow(() -> new EntityNotFoundException("Publisher not found with id: " + id));
+        return publisher.map(PublisherDto::toDto).orElseThrow(() -> new LibraryManagmentAPIException("Publisher not found with id: " + id));
 
     }
 

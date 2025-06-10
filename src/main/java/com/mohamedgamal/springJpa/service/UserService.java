@@ -4,6 +4,7 @@ import com.mohamedgamal.springJpa.DTO.BorrowRecordDto;
 import com.mohamedgamal.springJpa.DTO.UserDto;
 import com.mohamedgamal.springJpa.entites.BorrowRecord;
 import com.mohamedgamal.springJpa.entites.User;
+import com.mohamedgamal.springJpa.exception.LibraryManagmentAPIException;
 import com.mohamedgamal.springJpa.repos.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +35,23 @@ public class UserService {
             userRepo.deleteById(id);
             return "User deleted successfully.";
         } catch (DataIntegrityViolationException e) {
-            return "Cannot delete User with ID " + id +
-                    ". It is referenced by other records. Please remove all references first.";
+
+            throw new LibraryManagmentAPIException( "Cannot delete User with ID " + id +
+                    ". It is referenced by other records. Please remove all references first.");
+
+
+
         } catch (Exception e) {
-            return "Error occurred while deleting User with ID " + id + ": " + e.getMessage();
+
+            throw new LibraryManagmentAPIException(  "Error occurred while deleting User with ID " + id + ": " + e.getMessage());
+
+
         }
     }
 
     public UserDto getUserById(Long id) {
         User user = userRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + id));
+                .orElseThrow(() -> new LibraryManagmentAPIException("User not found with ID: " + id));
         return UserDto.toDto(user);
     }
 
@@ -55,7 +63,7 @@ public class UserService {
 
     public UserDto updateUser(UserDto dto) {
         User existing = userRepo.findById(dto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new LibraryManagmentAPIException("User not found"));
 
         existing.setUsername(dto.getUsername());
         existing.setEmail(dto.getEmail());

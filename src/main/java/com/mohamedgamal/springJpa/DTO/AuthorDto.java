@@ -30,7 +30,6 @@ public class AuthorDto {
                 .firstName(author.getFirstName())
                 .lastName(author.getLastName());
 
-        // Safely handle the books collection
         try {
             if (author.getBooks() != null) {
                 Set<Long> bookIds = author.getBooks().stream()
@@ -49,17 +48,7 @@ public class AuthorDto {
         return builder.build();
     }
 
-    // Simplified conversion without books (for list endpoints)
-    public static AuthorDto toDtoWithoutBooks(Author author) {
-        if (author == null) return null;
 
-        return AuthorDto.builder()
-                .id(author.getId())
-                .firstName(author.getFirstName())
-                .lastName(author.getLastName())
-                .booksId(new HashSet<>())
-                .build();
-    }
 
     public static Author toEntity(AuthorDto dto) {
         if (dto == null) return null;

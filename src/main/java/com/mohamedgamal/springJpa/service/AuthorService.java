@@ -6,6 +6,7 @@ import com.mohamedgamal.springJpa.DTO.BookDto;
 import com.mohamedgamal.springJpa.entites.Author;
 import com.mohamedgamal.springJpa.entites.Book;
 import com.mohamedgamal.springJpa.entites.BorrowRecord;
+import com.mohamedgamal.springJpa.exception.LibraryManagmentAPIException;
 import com.mohamedgamal.springJpa.repos.AuhtorRepo;
 import com.mohamedgamal.springJpa.repos.BookRepo;
 import com.mohamedgamal.springJpa.repos.BorrowRecordRepo;
@@ -49,14 +50,14 @@ public class AuthorService {
 
     public AuthorDto getAuthorById(Long id) {
         Author author = authorRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Author with ID " + id + " not found"));
+                .orElseThrow(() -> new LibraryManagmentAPIException("Author with ID " + id + " not found"));
         return AuthorDto.toDto(author);
     }
 
 
     public AuthorDto updateAuthor(AuthorDto dto) {
         Author existing = authorRepo.findById(dto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Author with ID " + dto.getId() + " not found"));
+                .orElseThrow(() -> new LibraryManagmentAPIException("Author with ID " + dto.getId() + " not found"));
 
         existing.setFirstName(dto.getFirstName());
         existing.setLastName(dto.getLastName());
@@ -73,22 +74,22 @@ public class AuthorService {
 
 
     public String deleteAuthor(Long id) {
-
         if (!authorRepo.existsById(id)) {
-            return "Author with ID " + id + " does not exist.";
+            throw new LibraryManagmentAPIException("Author with ID " + id + " does not exist.");
         }
 
         try {
             authorRepo.deleteById(id);
-            return "author deleted successfully";
+            return "Author deleted successfully.";
         } catch (DataIntegrityViolationException e) {
-            return "Cannot delete Author with ID " + id +
-                    ". It is referenced by other records. Please remove all references first.";
+            throw new LibraryManagmentAPIException(
+                    "Cannot delete Author with ID " + id +
+                            ". It is referenced by other records. Please remove all references first.");
         } catch (Exception e) {
-            return "Error occurred while deleting Author with ID " + id + ": " + e.getMessage();
+            throw new LibraryManagmentAPIException("Error occurred while deleting Author with ID " + id + ": " + e.getMessage());
         }
-
     }
+
 
 
 }
