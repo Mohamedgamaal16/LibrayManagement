@@ -1,8 +1,8 @@
 # LibrayManagement
 
-books end point for all 
-author only for admins 
-the others need to be authorized 
+* books end point for all 
+* author only for admins 
+* the others need to be authorized 
 **ADMIN** user : mohamed & pass 123
 **ADMIN** user : samir & pass 123
 
