@@ -1,6 +1,11 @@
 # LibrayManagement
 
 Here’s how you can write the **Features** and **Future Updates** sections for your GitHub README file:
+books end point for all 
+author only for admins 
+the others need to be authorized 
+**ADMIN** user : mohamed & pass 123
+**ADMIN** user : samir & pass 123
 
 ---
 
@@ -16,13 +21,13 @@ Here’s how you can write the **Features** and **Future Updates** sections for 
 * ✅ **Validation and Error Messaging**
 * ✅ **Layered Architecture** (Controller → Service → Repository)
 * ✅ **Spring Data JPA Integration**
+* ✅ **Spring Security Integration**
 
 ---
 
 ## 🔮 Future Updates
 
 * 🧪 Add unit and integration tests using JUnit & Mockito (working on wright now)
-* 🔒 Implement Spring Security for authentication and role-based access
 * 📚 Swagger/OpenAPI Documentation for easy API testing
 * 💾 Add pagination and filtering for GET endpoints
 * 🔁 Implement soft delete functionality for all entities
