@@ -26,13 +26,14 @@ public class SecurityConfig {
             auth.anyRequest().authenticated(); // secure other endpoints
         });
 
-        // Disable CSRF for H2 Console (needed for H2 console to work)
-        http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
 
         // Allow frames for H2 Console (H2 console uses frames)
         http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
         http.formLogin(Customizer.withDefaults());
         http.httpBasic(Customizer.withDefaults());
+        // Disable CSRF for H2 Console (needed for H2 console to work)
+        http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
+
         return http.build();
     }
 
