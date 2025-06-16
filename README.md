@@ -3,8 +3,8 @@
 * books end point for all .
 * author only for admins .
 * the others need to be authorized.
- **ADMIN** user : mohamed & pass 123.
-**USER** user : samir & pass 123.
+* **ADMIN** user : mohamed & pass 123.
+* **USER** user : samir & pass 123.
 
 
 Here’s how you can write the **Features** and **Future Updates** sections for your GitHub README file:
